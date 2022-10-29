@@ -74,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
   // the initState method, and clean it up in the dispose method.
   late FocusNode myFocusNode;
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), primary: Colors.blueAccent);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), primary: Colors.blueGrey);
 
   @override
   void initState() {
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: [
+          children: <Widget>[
             // The first text field is focused on as soon as the app starts.
             TextField(
               decoration: InputDecoration(
@@ -120,16 +120,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
               //focusNode: myFocusNode,
             ),
-            ElevatedButton(
-              key: const Key("OkButton"),
-              style: yesStyle,
-                child: const Text('OK'),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-              ),
+            Row(
+              children: <Widget>[
+                ElevatedButton(
+                  key: const Key("LoginButton"),
+                  style: yesStyle,
+                    child: const Text('Log in'),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pop(context);
+                        });
+                      },
+                  ),
+                ElevatedButton(
+                  key: const Key("SignupButton"),
+                  style: noStyle,
+                    child: const Text('Sign up'),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pop(context);
+                        });
+                      },
+                  ),
+              ],
+            ),
 
           ],
         ),
