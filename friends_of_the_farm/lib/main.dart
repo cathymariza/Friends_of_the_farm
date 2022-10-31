@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:friends_of_the_farm/profile_page.dart';
+import 'package:friends_of_the_farm/user_home.dart';
+import 'package:friends_of_the_farm/admin.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +22,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-  class LoginScreen extends StatefulWidget {
-    const LoginScreen({super.key});
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -69,14 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: 'Username',
               ),
               autofocus: true,
-              ),
+            ),
             // The second text field is focused on when a user taps the
             // FloatingActionButton.
             TextField(
               decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Password',
-                  ),
+                border: OutlineInputBorder(),
+                hintText: 'Password',
+              ),
               //focusNode: myFocusNode,
             ),
             Row(
@@ -84,31 +88,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   key: const Key("LoginButton"),
                   style: yesStyle,
-                    child: const Text('Log in'),
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pop(context);
-                        });
-                      },
-                  ),
+                  child: const Text('Log in'),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserHomePage()));
+                    });
+                  },
+                ),
                 ElevatedButton(
                   key: const Key("SignupButton"),
                   style: noStyle,
-                    child: const Text('Sign up'),
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pop(context);
-                        });
-                      },
-                  ),
+                  child: const Text('Sign up'),
+                  onPressed: () {
+                    setState(() {});
+                  },
+                ),
               ],
             ),
-
           ],
         ),
       ),
     );
   }
-
-  
 }
