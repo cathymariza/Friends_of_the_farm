@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Friends of the Farm',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const UserHomePage()));
+                              builder: (context) => const Navigation()));
                     });
                   },
                 ),

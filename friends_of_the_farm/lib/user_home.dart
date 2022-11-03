@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:friends_of_the_farm/admin.dart';
+import 'package:friends_of_the_farm/profile_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: UserHomePage(),
-    );
-  }
-}
-
-class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+class Navigation extends StatefulWidget {
+  const Navigation({super.key});
 
   @override
-  State<UserHomePage> createState() => _UserHomeState();
+  State<Navigation> createState() => _NavigationState();
 }
 
-class _UserHomeState extends State<UserHomePage> {
+class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -35,98 +17,10 @@ class _UserHomeState extends State<UserHomePage> {
     });
   }
 
-  static List<Widget> _pages = <Widget>[
-    Column(mainAxisSize: MainAxisSize.min, children: [
-      const Text('Your Next Tasks:'),
-      Padding(
-        padding: const EdgeInsets.only(left: 8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            ListTile(
-              leading: Icon(Icons.apple),
-              title: const Text('Water Garden Plots XYZ'),
-              subtitle: const Text('10:30 AM'),
-            ),
-            ListTile(
-              leading: Icon(Icons.catching_pokemon),
-              title: const Text('Feed the Chickens'),
-              subtitle: const Text('11:00 AM'),
-            ),
-          ],
-        ),
-      ),
-      ElevatedButton(
-        key: const Key("HoursWorked"),
-        style: ElevatedButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-            primary: Colors.blueAccent),
-        child: const Text('See Hours Worked'),
-        onPressed: () {},
-      ),
-    ]),
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          leading: CircleAvatar(),
-          title: const Text('Admin'),
-          subtitle: const Text('admin@sample.com'),
-        ),
-        const Text('Groups You Manage'),
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
-                leading: Icon(Icons.apple),
-                title: Text('Community Garden'),
-              ),
-              ListTile(
-                leading: Icon(Icons.catching_pokemon),
-                title: Text('Chickens'),
-              ),
-            ],
-          ),
-        ),
-        ElevatedButton(
-          key: const Key("Assign Task"),
-          style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20),
-              primary: Colors.blueAccent),
-          child: const Text('Assign A Task'),
-          onPressed: () {},
-        ),
-      ],
-    ),
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ListTile(
-          leading: CircleAvatar(),
-          title: const Text('Sample User'),
-          subtitle: const Text('user@sample.com'),
-        ),
-        const Text('Your Task Groups'),
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
-                leading: Icon(Icons.apple),
-                title: Text('Community Garden'),
-              ),
-              ListTile(
-                leading: Icon(Icons.catching_pokemon),
-                title: Text('Chickens'),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
+  final List<Widget> _pages = <Widget>[
+    const UserHomePage(),
+    const AdminScreen(),
+    const ProfilePage()
   ];
 
   @override
@@ -157,5 +51,47 @@ class _UserHomeState extends State<UserHomePage> {
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+class UserHomePage extends StatefulWidget {
+  const UserHomePage({super.key});
+
+  @override
+  State<UserHomePage> createState() => _UserHomeState();
+}
+
+class _UserHomeState extends State<UserHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      const Text('Your Next Tasks:'),
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            ListTile(
+              leading: Icon(Icons.apple),
+              title: Text('Water Garden Plots XYZ'),
+              subtitle: Text('10:30 AM'),
+            ),
+            ListTile(
+              leading: Icon(Icons.catching_pokemon),
+              title: Text('Feed the Chickens'),
+              subtitle: Text('11:00 AM'),
+            ),
+          ],
+        ),
+      ),
+      ElevatedButton(
+        key: const Key("HoursWorked"),
+        style: ElevatedButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+            primary: Colors.blueAccent),
+        child: const Text('See Hours Worked'),
+        onPressed: () {},
+      ),
+    ]);
   }
 }
