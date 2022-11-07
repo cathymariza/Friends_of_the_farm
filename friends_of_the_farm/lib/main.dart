@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:friends_of_the_farm/profile_page.dart';
 import 'package:friends_of_the_farm/user_home.dart';
 import 'package:friends_of_the_farm/admin.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Friends of the Farm',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        textTheme: GoogleFonts.lobsterTextTheme(),
       ),
       home: LoginScreen(),
     );
@@ -37,9 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
   // the initState method, and clean it up in the dispose method.
   late FocusNode myFocusNode;
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.blueAccent);
+      textStyle: GoogleFonts.lobster(fontSize: 20), primary: Colors.blueGrey);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.blueGrey);
+      textStyle: GoogleFonts.lobster(fontSize: 20), primary: Colors.blueGrey);
 
   @override
   void initState() {
@@ -98,14 +100,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   },
                 ),
-                ElevatedButton(
+                /*ElevatedButton(
                   key: const Key("SignupButton"),
                   style: noStyle,
                   child: const Text('Sign up'),
                   onPressed: () {
                     setState(() {});
                   },
-                ),
+                ),*/
               ],
             ),
           ],

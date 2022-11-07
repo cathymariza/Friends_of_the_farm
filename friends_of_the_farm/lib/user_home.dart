@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:friends_of_the_farm/admin.dart';
 import 'package:friends_of_the_farm/profile_page.dart';
+import 'package:friends_of_the_farm/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -89,8 +91,8 @@ class _UserHomeState extends State<UserHomePage> {
       ElevatedButton(
         key: const Key("HoursWorked"),
         style: ElevatedButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-            primary: Colors.blueAccent),
+            textStyle: GoogleFonts.lobster(fontSize: 20),
+            primary: Colors.blueGrey),
         child: Text('See Hours Worked'),
         onPressed: () {
           showDialog(
