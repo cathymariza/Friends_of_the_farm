@@ -4,8 +4,32 @@ import 'package:friends_of_the_farm/user_home.dart';
 import 'package:friends_of_the_farm/admin.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'dart:async'; // new
+
+import 'package:cloud_firestore/cloud_firestore.dart'; // new
+import 'package:firebase_auth/firebase_auth.dart' // new
+    hide
+        EmailAuthProvider,
+        PhoneAuthProvider; // new
+import 'package:firebase_core/firebase_core.dart'; // new
+import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart'; // new
+
+import 'firebase_options.dart'; // new
+import 'src/authentication.dart'; // new
+import 'src/widgets.dart';
+
 void main() {
-  runApp(const MyApp());
+  // Modify from here...
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const MyApp()),
+  ));
+  // ...to here.
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +54,93 @@ class LoginScreen extends StatefulWidget {
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class ApplicationState extends ChangeNotifier {
+  ApplicationState() {
+    Future<void> init() async {
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform);
+
+      FirebaseUIAuth.configureProviders([
+        EmailAuthProvider(),
+      ]);
+
+      FirebaseAuth.instance.userChanges().listen((user) {
+        if (user != null) {
+          _loggedIn = true;
+        } else {
+          _loggedIn = false;
+        }
+        notifyListeners();
+      });
+    }
+
+    init();
+  }
+
+  bool _loggedIn = false;
+  bool get loggedIn => _loggedIn;
+
+  Future<void> init() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+
+    FirebaseUIAuth.configureProviders([
+      EmailAuthProvider(),
+    ]);
+
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null) {
+        _loggedIn = true;
+      } else {
+        _loggedIn = false;
+      }
+      notifyListeners();
+    });
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Welcome to Friend of the Farm'),
+      ),
+      body: ListView(
+        children: <Widget>[
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                }),
+          ),
+          // to here
+          const Divider(
+            height: 8,
+            thickness: 1,
+            indent: 8,
+            endIndent: 8,
+            color: Colors.grey,
+          ),
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (appState.loggedIn) ...[
+                  const Header('Tasks'),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // Define a corresponding State class.
@@ -60,58 +171,77 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Log in'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            // The first text field is focused on as soon as the app starts.
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Username',
+    return MaterialApp(
+      //Start adding here
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) {
+          return const HomePage();
+        },
+        '/sign-in': ((context) {
+          return SignInScreen(
+            actions: [
+              ForgotPasswordAction(((context, email) {
+                Navigator.of(context)
+                    .pushNamed('/forgot-password', arguments: {'email': email});
+              })),
+              AuthStateChangeAction(((context, state) {
+                if (state is SignedIn || state is UserCreated) {
+                  var user = (state is SignedIn)
+                      ? state.user
+                      : (state as UserCreated).credential.user;
+                  if (user == null) {
+                    return;
+                  }
+                  if (state is UserCreated) {
+                    user.updateDisplayName(user.email!.split('@')[0]);
+                  }
+                  if (!user.emailVerified) {
+                    user.sendEmailVerification();
+                    const snackBar = SnackBar(
+                        content: Text(
+                            'Please check your email to verify your email address'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }
+              })),
+            ],
+          );
+        }),
+        '/forgot-password': ((context) {
+          final arguments = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+
+          return ForgotPasswordScreen(
+            email: arguments?['email'] as String,
+            headerMaxExtent: 200,
+          );
+        }),
+        '/profile': ((context) {
+          return ProfileScreen(
+            providers: [],
+            actions: [
+              SignedOutAction(
+                ((context) {
+                  Navigator.of(context).pushReplacementNamed('/home');
+                }),
               ),
-              autofocus: true,
+            ],
+          );
+        })
+      },
+      // end adding here
+      title: 'Friend of the Farm',
+      theme: ThemeData(
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              highlightColor: Colors.deepPurple,
             ),
-            // The second text field is focused on when a user taps the
-            // FloatingActionButton.
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Password',
-              ),
-              //focusNode: myFocusNode,
-            ),
-            Row(
-              children: <Widget>[
-                ElevatedButton(
-                  key: const Key("LoginButton"),
-                  style: yesStyle,
-                  child: const Text('Log in'),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Navigation()));
-                    });
-                  },
-                ),
-                /*ElevatedButton(
-                  key: const Key("SignupButton"),
-                  style: noStyle,
-                  child: const Text('Sign up'),
-                  onPressed: () {
-                    setState(() {});
-                  },
-                ),*/
-              ],
-            ),
-          ],
+        primarySwatch: Colors.deepPurple,
+        textTheme: GoogleFonts.robotoTextTheme(
+          Theme.of(context).textTheme,
         ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
   }

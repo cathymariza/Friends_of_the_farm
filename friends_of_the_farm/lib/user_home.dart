@@ -27,6 +27,18 @@ class _NavigationState extends State<Navigation> {
     const ProfilePage()
   ];
 
+  /*Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Hours Worked:'),
+      content: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("0"),
+        ],
+      ),
+    );
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
