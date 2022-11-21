@@ -110,7 +110,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Friends of the Farm'),
       ),
-      body: Column(mainAxisSize: MainAxisSize.min, children: [
+      body: 
+      Column(mainAxisSize: MainAxisSize.min, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -129,7 +130,8 @@ class HomePage extends StatelessWidget {
         ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (appState.loggedIn) ...[
 
@@ -212,7 +214,8 @@ class HomePage extends StatelessWidget {
             );
           }
         ),*/
-      ]),
+      ]
+      ),
     );
   }
 }
