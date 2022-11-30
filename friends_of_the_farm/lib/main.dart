@@ -108,36 +108,113 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to Friend of the Farm'),
+        title: const Text('Friends of the Farm'),
       ),
-      body: ListView(
-        children: <Widget>[
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                }),
-          ),
-          // to here
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
+      body: 
+      Column(mainAxisSize: MainAxisSize.min, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //Image.asset('assets/logo.png'),
+            //const SizedBox(height: 8),
+            //const IconAndDetail(Icons.calendar_today, 'October 30'),
+            //const IconAndDetail(Icons.location_city, 'San Francisco'),
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => AuthFunc(
+                  loggedIn: appState.loggedIn,
+                  signOut: () {
+                    FirebaseAuth.instance.signOut();
+                  }),
+            ),
+          ],
+        ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (appState.loggedIn) ...[
-                  const Header('Tasks'),
-                ],
+
+                  Text(
+                    'Tasks',
+                    style: GoogleFonts.lobster(fontSize: 32),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      ListTile(
+                        leading: Icon(Icons.apple),
+                        title: Text('Water Garden Plots XYZ'),
+                        subtitle: Text('10:30 AM'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.catching_pokemon),
+                        title: Text('Feed the Chickens'),
+                        subtitle: Text('11:00 AM'),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  key: const Key("HoursWorked"),
+                  style: ElevatedButton.styleFrom(
+                    textStyle: GoogleFonts.lobster(fontSize: 20),
+                    backgroundColor: Colors.blueGrey
+                  ),
+                  child: const Text('See Hours Worked'),
+                  onPressed: () {
+                    showDialog(
+                      context: context, 
+                      builder: (context) => const AlertDialog(
+                        title: Text('Hours Worked'),           // To display the title it is optional
+                        content: Text('3 hours on 11/04/2022'),
+                      )
+                    );
+                  }
+                ),
               ],
-            ),
+            ],
+            
           ),
-        ],
+        ),
+        /*Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              ListTile(
+                leading: Icon(Icons.apple),
+                title: Text('Water Garden Plots XYZ'),
+                subtitle: Text('10:30 AM'),
+              ),
+              ListTile(
+                leading: Icon(Icons.catching_pokemon),
+                title: Text('Feed the Chickens'),
+                subtitle: Text('11:00 AM'),
+              ),
+            ],
+          ),
+        ),
+        ElevatedButton(
+          key: const Key("HoursWorked"),
+          style: ElevatedButton.styleFrom(
+            textStyle: GoogleFonts.lobster(fontSize: 20),
+            backgroundColor: Colors.blueGrey
+          ),
+          child: const Text('See Hours Worked'),
+          onPressed: () {
+            showDialog(
+              context: context, 
+              builder: (context) => const AlertDialog(
+                title: Text('Hours Worked'),           // To display the title it is optional
+                content: Text('3 hours on 11/04/2022'),
+              )
+            );
+          }
+        ),*/
+      ]
       ),
     );
   }
@@ -229,20 +306,25 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           );
-        })
+        }),
+        '/home': (context) {
+          return const HomePage();
+
+      },
       },
       // end adding here
       title: 'Friend of the Farm',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
+              highlightColor: Colors.black,
             ),
-        primarySwatch: Colors.deepPurple,
-        textTheme: GoogleFonts.robotoTextTheme(
+        primarySwatch: Colors.blueGrey,
+        textTheme: GoogleFonts.lobsterTextTheme(
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      home: HomePage(),
     );
   }
 }

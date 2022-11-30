@@ -17,7 +17,7 @@ class AuthFunc extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 24, bottom: 8),
+          padding: const EdgeInsets.only(bottom: 8),
           child: StyledButton(
               onPressed: () {
                 !loggedIn
@@ -29,10 +29,13 @@ class AuthFunc extends StatelessWidget {
                   : const Text(
                       'Logout')), // this is where you change the sign in button
         ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12)
+        ),
         Visibility(
             visible: loggedIn,
             child: Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              padding: const EdgeInsets.only(bottom: 8),
               child: StyledButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('/profile');
