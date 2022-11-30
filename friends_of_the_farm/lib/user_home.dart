@@ -90,12 +90,18 @@ class _UserHomeState extends State<UserHomePage> {
             ListTile(
               leading: Icon(Icons.apple),
               title: Text('Water Garden Plots XYZ'),
-              subtitle: Text('10:30 AM'),
+              subtitle: Text('Today'),
             ),
             ListTile(
               leading: Icon(Icons.catching_pokemon),
               title: Text('Feed the Chickens'),
-              subtitle: Text('11:00 AM'),
+              subtitle: Text(
+                'This Morning',
+                style: TextStyle(
+                    fontFamily: 'Sans-Serif',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
           ],
         ),
