@@ -90,12 +90,18 @@ class _UserHomeState extends State<UserHomePage> {
             ListTile(
               leading: Icon(Icons.apple),
               title: Text('Water Garden Plots XYZ'),
-              subtitle: Text('10:30 AM'),
+              subtitle: Text('Today'),
             ),
             ListTile(
               leading: Icon(Icons.catching_pokemon),
               title: Text('Feed the Chickens'),
-              subtitle: Text('11:00 AM'),
+              subtitle: Text(
+                'This Morning',
+                style: TextStyle(
+                    fontFamily: 'Sans-Serif',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
           ],
         ),
@@ -108,22 +114,22 @@ class _UserHomeState extends State<UserHomePage> {
         child: Text('See Hours Worked'),
         onPressed: () {
           showDialog(
-            context: context, 
-            builder: (context){
-              return AlertDialog(
-            title: const Text('Hours Worked'),           // To display the title it is optional
-            content: Text('3 hours on 11/04/2022'),
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                      'Hours Worked'), // To display the title it is optional
+                  content: Text('3 hours on 11/04/2022'),
 
-              /*actions: [
+                  /*actions: [
                 FlatButton(                     // FlatButton widget is used to make a text to work like a button
                   textColor: Colors.black,
                   onPressed: () {},             // function used to perform after pressing the button
                   child: Text('OK'),
                 ),
               ],*/
-          );
-            });
-          
+                );
+              });
         },
       ),
     ]);
