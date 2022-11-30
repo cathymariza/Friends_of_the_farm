@@ -108,22 +108,31 @@ class _UserHomeState extends State<UserHomePage> {
         child: Text('See Hours Worked'),
         onPressed: () {
           showDialog(
-            context: context, 
-            builder: (context){
-              return AlertDialog(
-            title: const Text('Hours Worked'),           // To display the title it is optional
-            content: Text('3 hours on 11/04/2022'),
-
-              /*actions: [
-                FlatButton(                     // FlatButton widget is used to make a text to work like a button
-                  textColor: Colors.black,
-                  onPressed: () {},             // function used to perform after pressing the button
-                  child: Text('OK'),
-                ),
-              ],*/
-          );
-            });
-          
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                      'Hours Worked'), // To display the title it is optional
+                  content: Text('hours here'),
+                  actions: [
+                    Row(
+                      children: [
+                        const TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Hours Worked',
+                          ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              //do things
+                            },
+                            child: Text("Input New Hours"))
+                      ],
+                    )
+                  ],
+                );
+              });
         },
       ),
     ]);
