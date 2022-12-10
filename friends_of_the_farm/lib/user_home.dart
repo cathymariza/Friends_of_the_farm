@@ -95,13 +95,7 @@ class _UserHomeState extends State<UserHomePage> {
             ListTile(
               leading: Icon(Icons.catching_pokemon),
               title: Text('Feed the Chickens'),
-              subtitle: Text(
-                'This Morning',
-                style: TextStyle(
-                    fontFamily: 'Sans-Serif',
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-              ),
+              subtitle: Text('This Morning'),
             ),
           ],
         ),
@@ -121,21 +115,17 @@ class _UserHomeState extends State<UserHomePage> {
                       'Hours Worked'), // To display the title it is optional
                   content: Text('hours here'),
                   actions: [
-                    Row(
-                      children: [
-                        const TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Hours Worked',
-                          ),
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              //do things
-                            },
-                            child: Text("Input New Hours"))
-                      ],
-                    )
+                    const TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Hours Worked',
+                      ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          //do things
+                        },
+                        child: Text("Input New Hours"))
                   ],
                 );
               });
