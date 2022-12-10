@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:friends_of_the_farm/profile_page.dart';
-import 'package:friends_of_the_farm/user_home.dart';
-import 'package:friends_of_the_farm/admin.dart';
+import 'package:friends_of_the_farm/pages/profile_page.dart';
+import 'package:friends_of_the_farm/pages/user_home.dart';
+import 'package:friends_of_the_farm/pages/admin.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'dart:async'; // new
@@ -238,12 +238,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           );
         }),
-        '/home': (context) {
-          return const HomePage();
-        },
       },
       // end adding here
-      title: 'Friend of the Farm',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.black,

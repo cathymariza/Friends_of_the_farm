@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:friends_of_the_farm/user_home.dart';
+import 'package:friends_of_the_farm/pages/user_home.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

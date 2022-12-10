@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:friends_of_the_farm/admin.dart';
-import 'package:friends_of_the_farm/profile_page.dart';
+import 'package:friends_of_the_farm/pages/admin.dart';
+import 'package:friends_of_the_farm/pages/profile_page.dart';
 import 'package:friends_of_the_farm/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
