@@ -151,6 +151,50 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Colors.lightBlue.shade100, Colors.blueGrey])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text('Friends of the Farm',
+                textAlign: TextAlign.center,
+                style:
+                    GoogleFonts.lobster(fontSize: 90.0, color: Colors.white)),
+            TextButton(
+                child: Text("Login/Signup".toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.blueGrey.shade400),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(15)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.blueGrey)))),
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/sign-in')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 // Define a corresponding State class.
 // This class holds data related to the form.
 class _LoginScreenState extends State<LoginScreen> {
@@ -184,7 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
       initialRoute: '/home',
       routes: {
         '/home': (context) {
-          return const HomePage();
+          return Consumer<ApplicationState>(
+              builder: (context, appState, _) =>
+                  appState.loggedIn ? const HomePage() : const LoginPage());
         },
         '/sign-in': ((context) {
           return SignInScreen(
