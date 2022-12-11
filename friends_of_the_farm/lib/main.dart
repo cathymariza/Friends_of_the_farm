@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:friends_of_the_farm/pages/profile_page.dart';
 import 'package:friends_of_the_farm/pages/home.dart';
@@ -101,8 +102,48 @@ class ApplicationState extends ChangeNotifier {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var tasks = [
+    'Task 1',
+    'Task 2',
+    'Task 3',
+    'Task 4',
+    'Task 5',
+  ];
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Item To Add'),
+            content: DropdownButtonFormField(
+              items: tasks.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              onChanged: (value) {},
+              decoration: const InputDecoration(hintText: "What did you do?"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  key: const Key("OKButton"),
+                  child: const Text("Ok"),
+                  onPressed: () {}),
+
+              // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +189,9 @@ class HomePage extends StatelessWidget {
         ),
       ]),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          _displayTextInputDialog(context);
+        },
         label: Text('Log Hours'),
         icon: Icon(Icons.timer),
       ),
@@ -262,7 +305,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Please check your email to verify your email address'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacementNamed('/home');
                 }
               })),
             ],
@@ -301,7 +344,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
     );
   }
 }
