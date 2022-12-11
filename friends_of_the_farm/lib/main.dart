@@ -147,6 +147,11 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ]),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text('Log Hours'),
+        icon: Icon(Icons.timer),
+      ),
     );
   }
 }
@@ -170,12 +175,12 @@ class LoginPage extends StatelessWidget {
             Text('Friends of the Farm',
                 textAlign: TextAlign.center,
                 style:
-                    GoogleFonts.lobster(fontSize: 90.0, color: Colors.white)),
+                    GoogleFonts.lobster(fontSize: 70.0, color: Colors.white)),
             TextButton(
                 child: Text("Login/Signup".toUpperCase(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Colors.white)),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
