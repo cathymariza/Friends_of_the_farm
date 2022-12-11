@@ -122,24 +122,43 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Item To Add'),
-            content: DropdownButtonFormField(
-              items: tasks.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              onChanged: (value) {},
-              decoration: const InputDecoration(hintText: "What did you do?"),
+            title: Text('Log Hours and Harvest'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                DropdownButtonFormField(
+                  items: tasks.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (value) {},
+                  decoration:
+                      const InputDecoration(hintText: "What did you do?"),
+                ),
+                TextField(
+                  decoration:
+                      const InputDecoration(hintText: "Time (ex. 1 hr)"),
+                )
+              ],
             ),
             actions: <Widget>[
               ElevatedButton(
                   key: const Key("OKButton"),
                   child: const Text("Ok"),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
 
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+              ElevatedButton(
+                  key: const Key("CancelButton"),
+                  child: const Text("Cancel"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
             ],
           );
         });
