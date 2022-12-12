@@ -29,6 +29,13 @@
             {
               "client_id": "222926682196-c98no76gtr3vrdcs95hq87sm2isvq5kb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "222926682196-9tb442svnvttrscalq0ohmlp3nvmoevj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.friendsOfTheFarm"
+              }
             }
           ]
         }

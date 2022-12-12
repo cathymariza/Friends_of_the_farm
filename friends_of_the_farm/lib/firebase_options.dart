@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '222926682196',
     projectId: 'friend-of-the-farm',
     authDomain: 'friend-of-the-farm.firebaseapp.com',
+    databaseURL: "",
     storageBucket: 'friend-of-the-farm.appspot.com',
     measurementId: 'G-82R32MYEDZ',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:222926682196:android:c4eb15d7896755922515c1',
     messagingSenderId: '222926682196',
     projectId: 'friend-of-the-farm',
+    databaseURL: "",
     storageBucket: 'friend-of-the-farm.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:222926682196:ios:379776d0877f11ab2515c1',
     messagingSenderId: '222926682196',
     projectId: 'friend-of-the-farm',
+    databaseURL: "",
     storageBucket: 'friend-of-the-farm.appspot.com',
     iosClientId: '222926682196-9tb442svnvttrscalq0ohmlp3nvmoevj.apps.googleusercontent.com',
     iosBundleId: 'com.example.friendsOfTheFarm',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:222926682196:ios:379776d0877f11ab2515c1',
     messagingSenderId: '222926682196',
     projectId: 'friend-of-the-farm',
+    databaseURL: "",
     storageBucket: 'friend-of-the-farm.appspot.com',
     iosClientId: '222926682196-9tb442svnvttrscalq0ohmlp3nvmoevj.apps.googleusercontent.com',
     iosBundleId: 'com.example.friendsOfTheFarm',

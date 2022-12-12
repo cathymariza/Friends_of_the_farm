@@ -1,10 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:friends_of_the_farm/admin.dart';
 import 'package:friends_of_the_farm/profile_page.dart';
 import 'package:friends_of_the_farm/main.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+FirebaseFirestore database = FirebaseFirestore.instance;
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -26,18 +30,6 @@ class _NavigationState extends State<Navigation> {
     const AdminScreen(),
     const ProfilePage()
   ];
-
-  /*Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Hours Worked:'),
-      content: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("0"),
-        ],
-      ),
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +69,48 @@ class UserHomePage extends StatefulWidget {
   State<UserHomePage> createState() => _UserHomeState();
 }
 
+/*class _updateDatabase {
+  _updateDatabase(String newhours);
+
+  Future<void> update() async {
+    var uid = FirebaseAuth.instance.currentUser!.uid;
+    DatabaseReference ref = FirebaseDatabase.instance.ref("hours/$uid");
+
+    await ref.update({
+      "hours_worked": 0,
+    });
+  }
+}*/
+
 class _UserHomeState extends State<UserHomePage> {
+  final myController =
+      TextEditingController(); //controller to accept input from textfield
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
+  String getHours() {
+    /*DatabaseReference hoursRef = FirebaseDatabase.instance.ref('hours');
+    hoursRef.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+    });
+    return "temp";*/
+
+    final docRef = database.collection("users").doc("CXYna8dMoZX8yXvwB1Cg");
+    docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+    //return "0";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -105,30 +138,40 @@ class _UserHomeState extends State<UserHomePage> {
         style: ElevatedButton.styleFrom(
             textStyle: GoogleFonts.lobster(fontSize: 20),
             primary: Colors.blueGrey),
-        child: Text('See Hours Worked'),
+        child: Text('View Hours Worked'),
         onPressed: () {
           showDialog(
               context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text(
-                      'Hours Worked'), // To display the title it is optional
-                  content: Text('hours here'),
-                  actions: [
-                    const TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Hours Worked',
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          //do things
-                        },
-                        child: Text("Input New Hours"))
-                  ],
-                );
-              });
+              builder: (ctx) => AlertDialog(
+                    title: const Text(
+                        'Hours Worked'), // To display the title it is optional
+                    content: Text(getHours()),
+
+                    actions: [
+                      Row(
+                        children: [
+                          //this row contains a text field and button for user to submit hours
+                          SizedBox(
+                            width: 120,
+                            height: 40,
+                            child: TextField(
+                              controller: myController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Hours Worked',
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                //_updateDatabase(myController
+                                //  .text); //calls update database to store new values in firestore
+                              },
+                              child: Text("Input New Hours"))
+                        ],
+                      )
+                    ],
+                  ));
         },
       ),
     ]);

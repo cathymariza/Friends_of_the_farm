@@ -146,6 +146,41 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+        /*Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      ListTile(
+                        leading: Icon(Icons.apple),
+                        title: Text('Water Garden Plots XYZ'),
+                        subtitle: Text('10:30 AM'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.catching_pokemon),
+                        title: Text('Feed the Chickens'),
+                        subtitle: Text('11:00 AM'),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                    key: const Key("HoursWorked"),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: GoogleFonts.lobster(fontSize: 20),
+            backgroundColor: Colors.blueGrey
+          ),
+                    child: const Text('See Hours Worked'),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                title: Text('Hours Worked'),           // To display the title it is optional
+                                content: Text('3 hours on 11/04/2022'),
+              )
+            );
+          }
+        ),*/
       ]),
     );
   }
