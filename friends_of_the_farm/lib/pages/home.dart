@@ -104,7 +104,7 @@ class _UserHomeState extends State<UserHomePage> {
         key: const Key("HoursWorked"),
         style: ElevatedButton.styleFrom(
             textStyle: GoogleFonts.lobster(fontSize: 20),
-            primary: Colors.blueGrey),
+            primary: Colors.brown),
         child: Text('See Hours Worked'),
         onPressed: () {
           showDialog(
