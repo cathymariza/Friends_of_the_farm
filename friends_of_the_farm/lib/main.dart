@@ -110,6 +110,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    var auth = FirebaseAuth.instance;
+    var db = FirebaseFirestore.instance;
+    String? currentUserID = auth.currentUser?.uid;
+    String username = auth.currentUser!.email!.split('@')[0];
+    var userDoc = db.collection('users').doc(currentUserID);
+
+    if (currentUserID != null) {
+      print('currentUserID is $currentUserID');
+      userDoc.get().then((docSnapshot) {
+        if (!docSnapshot.exists) {
+          print('user does not exist in firestore; creating now');
+          userDoc.set({
+            'username': username,
+            'isAdmin': false
+          });
+        } else { print('user already exists in firestore'); }
+      });
+    } else { print('currentUserID is null'); }
+  }
+
   int _currentIndex = 0;
   var tasks = [
     'Task 1',
@@ -237,7 +262,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  
+
 
   void onTabTapped(int index) {
     setState(() {
