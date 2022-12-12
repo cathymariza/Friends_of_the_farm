@@ -79,6 +79,33 @@ class _UserHomeState extends State<UserHomePage> {
     // TODO: implement initState
     super.initState();
     getHours();
+
+    var auth = FirebaseAuth.instance;
+    var db = FirebaseFirestore.instance;
+    String? currentUserID = auth.currentUser?.uid;
+    String username = auth.currentUser!.email!.split('@')[0];
+    var userDoc = db.collection('users').doc(currentUserID);
+    
+    // if the user has not been created in Firestore, add them now
+    if (currentUserID != null) {
+      print('currentUserID is $currentUserID');
+      userDoc.get()
+        .then((docSnapshot) {
+          if (!docSnapshot.exists) {
+            print('user does not exist in firestore; creating now');
+            userDoc.set({
+              'username': username, 
+              'isAdmin': false
+            });
+          } else {
+            print('user already exists in firestore');
+          }
+        }).onError((error, stackTrace) { 
+          print('Unable to get/set user document data\n\nError: $error\n\n');
+        });
+    } else {
+      print('currentUserID is null');
+    }
   }
 
   final myController =
