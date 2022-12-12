@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +85,15 @@ class UserHomePage extends StatefulWidget {
 }*/
 
 class _UserHomeState extends State<UserHomePage> {
+  String hours = "N/A";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getHours();
+  }
+
   final myController =
       TextEditingController(); //controller to accept input from textfield
 
@@ -93,22 +104,25 @@ class _UserHomeState extends State<UserHomePage> {
     super.dispose();
   }
 
-  String getHours() {
-    /*DatabaseReference hoursRef = FirebaseDatabase.instance.ref('hours');
-    hoursRef.onValue.listen((DatabaseEvent event) {
-      final data = event.snapshot.value;
-    });
-    return "temp";*/
+  void getHours() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      print(FirebaseAuth.instance.currentUser?.uid); // this is the user id
+      final current_user = FirebaseAuth.instance.currentUser?.email!
+          .split("@")[0]; // this is the displayname aka first part of email
+      print(current_user);
 
-    final docRef = database.collection("users").doc("CXYna8dMoZX8yXvwB1Cg");
-    docRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return data;
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
-    //return "0";
+      final docRef = database.collection("users").doc(
+          current_user); //the users collection needs to have ids that are usernames
+      docRef.get().then(
+        (DocumentSnapshot doc) {
+          final data = doc.data()
+              as Map<String, dynamic>; //get the data that's in the collection
+          hours = data[
+              'hours']; //get the field that's labelled hours within the collection
+        },
+        onError: (e) => print("Error getting document: $e"),
+      );
+    }
   }
 
   @override
@@ -145,7 +159,7 @@ class _UserHomeState extends State<UserHomePage> {
               builder: (ctx) => AlertDialog(
                     title: const Text(
                         'Hours Worked'), // To display the title it is optional
-                    content: Text(getHours()),
+                    content: Text(hours),
 
                     actions: [
                       Row(
