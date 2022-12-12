@@ -170,6 +170,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Friends of the Farm',
             style: GoogleFonts.lobster(fontSize: 35)),
+          backgroundColor: Colors.brown,
       ),
       body: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(
@@ -225,53 +226,53 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [Colors.lightBlue.shade100, Colors.blueGrey])),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text('Friends of the Farm',
-                textAlign: TextAlign.center,
-                style:
-                    GoogleFonts.lobster(fontSize: 70.0, color: Colors.white)),
-          TextButton(
-                child: Text("Login/Signup".toUpperCase(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.white)),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.blueGrey.shade400),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.all(15)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.blueGrey)))),
-                onPressed: () =>
-                    Navigator.of(context).pushReplacementNamed('/sign-in')),
-            CircleAvatar(
-                  backgroundColor: Colors.brown,
-                  /*backgroundImage: NetworkImage(
-                    "assets.Logoo.jpg"
-                  ),*/
-                  radius: 100,
-                  /*child: SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: ClipOval(
-                      child: Image.asset("assets.Logoo.jpg"),
-                      )
-                  )*/
-                )
-          ],
-        ),
-      ),
+       decoration: BoxDecoration(
+           gradient: LinearGradient(
+               begin: Alignment.topRight,
+               end: Alignment.bottomLeft,
+               colors: [Colors.white, Colors.brown])),
+       child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         crossAxisAlignment: CrossAxisAlignment.center,
+         children: <Widget>[
+           Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              //image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+              image: AssetImage('assets/images/Logoo.jpg'),
+              fit: BoxFit.fill
+            ),
+  ),
+),
+           Text('Friends of the Farm',
+               textAlign: TextAlign.center,
+               style:
+                   GoogleFonts.lobster(fontSize: 70.0, color: Colors.white)),
+         TextButton(
+               child: Text("Login/Signup".toUpperCase(),
+                   style: TextStyle(
+                       fontWeight: FontWeight.bold,
+                       fontSize: 25,
+                       color: Colors.white)),
+               style: ButtonStyle(
+                   backgroundColor: MaterialStateProperty.all<Color>(
+                       Colors.brown),
+                   padding: MaterialStateProperty.all<EdgeInsets>(
+                       EdgeInsets.all(15)),
+                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                       RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(18.0),
+                           side: BorderSide(color: Colors.brown)))),
+               onPressed: () =>
+                   Navigator.of(context).pushReplacementNamed('/sign-in')),
+          
+         ],
+       ),
+     ),
+
     );
   }
 }
@@ -371,7 +372,7 @@ class _LoginScreenState extends State<LoginScreen> {
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.black,
             ),
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.brown,
         textTheme: GoogleFonts.notoSerifTextTheme(
           Theme.of(context).textTheme,
         ),
