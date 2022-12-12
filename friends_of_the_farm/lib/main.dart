@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:friends_of_the_farm/profile_page.dart';
+import 'package:friends_of_the_farm/pages/profile_page.dart';
 import 'package:friends_of_the_farm/user_home.dart';
-import 'package:friends_of_the_farm/admin.dart';
+import 'package:friends_of_the_farm/pages/admin.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'dart:async'; // new
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Friends of the Farm',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.brown,
         textTheme: GoogleFonts.lobsterTextTheme(),
       ),
       home: LoginScreen(),
@@ -101,8 +102,93 @@ class ApplicationState extends ChangeNotifier {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    var auth = FirebaseAuth.instance;
+    var db = FirebaseFirestore.instance;
+    String? currentUserID = auth.currentUser?.uid;
+    String username = auth.currentUser!.email!.split('@')[0];
+    var userDoc = db.collection('users').doc(currentUserID);
+
+    if (currentUserID != null) {
+      print('currentUserID is $currentUserID');
+      userDoc.get().then((docSnapshot) {
+        if (!docSnapshot.exists) {
+          print('user does not exist in firestore; creating now');
+          userDoc.set({'username': username, 'isAdmin': false});
+        } else {
+          print('user already exists in firestore');
+        }
+      });
+    } else {
+      print('currentUserID is null');
+    }
+  }
+
+  int _currentIndex = 0;
+  var tasks = [
+    'Task 1',
+    'Task 2',
+    'Task 3',
+    'Task 4',
+    'Task 5',
+  ];
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Log Hours and Harvest'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                DropdownButtonFormField(
+                  items: tasks.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (value) {},
+                  decoration:
+                      const InputDecoration(hintText: "What did you do?"),
+                ),
+                TextField(
+                  decoration:
+                      const InputDecoration(hintText: "Time (ex. 1 hr)"),
+                )
+              ],
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  key: const Key("OKButton"),
+                  child: const Text("Ok"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+
+              // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
+              ElevatedButton(
+                  key: const Key("CancelButton"),
+                  child: const Text("Cancel"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +196,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Friends of the Farm',
             style: GoogleFonts.lobster(fontSize: 35)),
+        backgroundColor: Colors.brown,
       ),
       body: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(
@@ -182,6 +269,92 @@ class HomePage extends StatelessWidget {
           }
         ),*/
       ]),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     _displayTextInputDialog(context);
+      //   },
+      //   label: Text('Log Hours'),
+      //   icon: Icon(Icons.timer),
+      // ),
+
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_task),
+              label: 'Admin',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ]),
+    );
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Colors.white, Colors.brown])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    //image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                    image: AssetImage('assets/images/Logoo.jpg'),
+                    fit: BoxFit.fill),
+              ),
+            ),
+            Text('Friends of the Farm',
+                textAlign: TextAlign.center,
+                style:
+                    GoogleFonts.lobster(fontSize: 70.0, color: Colors.white)),
+            TextButton(
+                child: Text("Login/Signup".toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.brown),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(15)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.brown)))),
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/sign-in')),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -219,7 +392,9 @@ class _LoginScreenState extends State<LoginScreen> {
       initialRoute: '/home',
       routes: {
         '/home': (context) {
-          return const HomePage();
+          return Consumer<ApplicationState>(
+              builder: (context, appState, _) =>
+                  appState.loggedIn ? const HomePage() : const LoginPage());
         },
         '/sign-in': ((context) {
           return SignInScreen(
@@ -246,7 +421,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Please check your email to verify your email address'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacementNamed('/home');
                 }
               })),
             ],
@@ -273,23 +448,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           );
         }),
-        '/home': (context) {
-          return const HomePage();
-        },
       },
       // end adding here
-      title: 'Friend of the Farm',
       theme: ThemeData(
         buttonTheme: Theme.of(context).buttonTheme.copyWith(
               highlightColor: Colors.black,
             ),
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.brown,
         textTheme: GoogleFonts.notoSerifTextTheme(
           Theme.of(context).textTheme,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
     );
   }
 }

@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:friends_of_the_farm/admin.dart';
-import 'package:friends_of_the_farm/profile_page.dart';
+import 'package:friends_of_the_farm/pages/admin.dart';
+import 'package:friends_of_the_farm/pages/profile_page.dart';
 import 'package:friends_of_the_farm/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -85,24 +85,20 @@ class _UserHomeState extends State<UserHomePage> {
     String? currentUserID = auth.currentUser?.uid;
     String username = auth.currentUser!.email!.split('@')[0];
     var userDoc = db.collection('users').doc(currentUserID);
-    
+
     // if the user has not been created in Firestore, add them now
     if (currentUserID != null) {
       print('currentUserID is $currentUserID');
-      userDoc.get()
-        .then((docSnapshot) {
-          if (!docSnapshot.exists) {
-            print('user does not exist in firestore; creating now');
-            userDoc.set({
-              'username': username, 
-              'isAdmin': false
-            });
-          } else {
-            print('user already exists in firestore');
-          }
-        }).onError((error, stackTrace) { 
-          print('Unable to get/set user document data\n\nError: $error\n\n');
-        });
+      userDoc.get().then((docSnapshot) {
+        if (!docSnapshot.exists) {
+          print('user does not exist in firestore; creating now');
+          userDoc.set({'username': username, 'isAdmin': false});
+        } else {
+          print('user already exists in firestore');
+        }
+      }).onError((error, stackTrace) {
+        print('Unable to get/set user document data\n\nError: $error\n\n');
+      });
     } else {
       print('currentUserID is null');
     }
@@ -185,7 +181,7 @@ class _UserHomeState extends State<UserHomePage> {
         key: const Key("HoursWorked"),
         style: ElevatedButton.styleFrom(
             textStyle: GoogleFonts.lobster(fontSize: 20),
-            primary: Colors.blueGrey),
+            primary: Theme.of(context).primaryColor),
         child: Text('View Hours Worked'),
         onPressed: () {
           showDialog(
