@@ -4,6 +4,7 @@ import 'package:friends_of_the_farm/pages/profile_page.dart';
 import 'package:friends_of_the_farm/pages/home.dart';
 import 'package:friends_of_the_farm/pages/admin.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'dart:async'; // new
 
@@ -189,7 +190,11 @@ class _HomePageState extends State<HomePage> {
           );
         });
   }
-
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,7 +206,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          /*children: <Widget>[
             //Image.asset('assets/logo.png'),
             //const SizedBox(height: 8),
             //const IconAndDetail(Icons.calendar_today, 'October 30'),
@@ -213,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                     FirebaseAuth.instance.signOut();
                   }),
             ),
-          ],
+          ],*/
         ),
         Consumer<ApplicationState>(
           builder: (context, appState, _) => Column(
@@ -249,6 +254,8 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+            //onPressed: () {
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_task),
@@ -258,17 +265,53 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
-        ]),
-    );
+          ],
+          //currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue[800],
+          //onTap: _on,
+      ),
+        
+        /*bottomNavigationBar: GNav(
+            backgroundColor: Colors.white,
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                iconColor: Colors.grey,
+                //textStyle: null,
+                ),
+              GButton(
+                icon: Icons.add_task,
+                text: 'Admin',
+                iconColor: Colors.grey,
+                ),
+              GButton(
+                icon: Icons.person,
+                text: 'Profile',
+                iconColor: Colors.grey,
+                onPressed: () {
+                 Navigator.of(context).pushReplacementNamed('/profile');
+                }
+                ),
+              GButton(
+                icon: Icons.logout,
+                text: 'Logout',
+                iconColor: Colors.grey,
+                onPressed: () {
+                 //Navigator.of(context).pushReplacementNamed('/home');
+                
+                    FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushReplacementNamed('/home');
+                  }),
+            ],
+                ),*/
+        );
   }
 
 
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
+
+  
 }
 
 class LoginPage extends StatelessWidget {
