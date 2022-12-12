@@ -71,19 +71,6 @@ class UserHomePage extends StatefulWidget {
   State<UserHomePage> createState() => _UserHomeState();
 }
 
-/*class _updateDatabase {
-  _updateDatabase(String newhours);
-
-  Future<void> update() async {
-    var uid = FirebaseAuth.instance.currentUser!.uid;
-    DatabaseReference ref = FirebaseDatabase.instance.ref("hours/$uid");
-
-    await ref.update({
-      "hours_worked": 0,
-    });
-  }
-}*/
-
 class _UserHomeState extends State<UserHomePage> {
   String hours = "N/A";
 
@@ -102,6 +89,27 @@ class _UserHomeState extends State<UserHomePage> {
     // Clean up the controller when the widget is disposed.
     myController.dispose();
     super.dispose();
+  }
+
+  Future<void> update(new_hours) async {
+    final current_user =
+        FirebaseAuth.instance.currentUser?.uid; // get the current user id
+
+    final docRef = database
+        .collection("users")
+        .doc(current_user); //get the current users document
+
+    var new_parse =
+        int.parse(new_hours); // these are string values so we convert to int
+    var old_parse = int.parse(hours);
+    String parsed_value = (new_parse + old_parse)
+        .toString(); // after adding convert back to string
+
+    await docRef.update({
+      //update at user's doc the hours field with new value
+      "hours": parsed_value,
+    });
+    getHours();
   }
 
   void getHours() {
@@ -177,8 +185,8 @@ class _UserHomeState extends State<UserHomePage> {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                //_updateDatabase(myController
-                                //  .text); //calls update database to store new values in firestore
+                                update(myController
+                                    .text); //calls update database to store new values in firestore
                               },
                               child: Text("Input New Hours"))
                         ],
