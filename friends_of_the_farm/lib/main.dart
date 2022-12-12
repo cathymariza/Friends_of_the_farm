@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Friends of the Farm',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.brown,
         textTheme: GoogleFonts.lobsterTextTheme(),
       ),
       home: LoginScreen(),
@@ -238,7 +238,7 @@ class LoginPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style:
                     GoogleFonts.lobster(fontSize: 70.0, color: Colors.white)),
-            TextButton(
+          TextButton(
                 child: Text("Login/Signup".toUpperCase(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -255,6 +255,20 @@ class LoginPage extends StatelessWidget {
                             side: BorderSide(color: Colors.blueGrey)))),
                 onPressed: () =>
                     Navigator.of(context).pushReplacementNamed('/sign-in')),
+            CircleAvatar(
+                  backgroundColor: Colors.brown,
+                  /*backgroundImage: NetworkImage(
+                    "assets.Logoo.jpg"
+                  ),*/
+                  radius: 100,
+                  /*child: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: ClipOval(
+                      child: Image.asset("assets.Logoo.jpg"),
+                      )
+                  )*/
+                )
           ],
         ),
       ),
