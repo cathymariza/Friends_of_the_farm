@@ -122,12 +122,12 @@ class _UserHomeState extends State<UserHomePage> {
         .collection("users")
         .doc(current_user); //get the current users document
 
-    var new_parse =
-        int.parse(new_hours); // these are string values so we convert to int
-    var old_parse = int.parse(hours);
-    String parsed_value = (new_parse + old_parse)
+    var new_parse = int.tryParse(new_hours) ??
+        0; // these are string values so we convert to int
+    var old_parse = int.tryParse(hours) ?? 0;
+    var parsed_value = (new_parse + old_parse)
         .toString(); // after adding convert back to string
-
+    print(parsed_value);
     await docRef.update({
       //update at user's doc the hours field with new value
       "hours": parsed_value,
@@ -153,6 +153,47 @@ class _UserHomeState extends State<UserHomePage> {
         onError: (e) => print("Error getting document: $e"),
       );
     }
+  }
+
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    print("Loading Dialog");
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+                'Hours Worked'), // To display the title it is optional
+            content: Text(hours),
+
+            actions: [
+              Row(
+                children: [
+                  //this row contains a text field and button for user to submit hours
+                  SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: TextField(
+                      controller: myController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Hours Worked',
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        update(myController
+                            .text); //calls update database to store new values in firestore
+                        myController.clear();
+                        Navigator.pop(context);
+                      },
+                      child: Text("Input New Hours"))
+                ],
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -184,38 +225,7 @@ class _UserHomeState extends State<UserHomePage> {
             primary: Theme.of(context).primaryColor),
         child: Text('View Hours Worked'),
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                    title: const Text(
-                        'Hours Worked'), // To display the title it is optional
-                    content: Text(hours),
-
-                    actions: [
-                      Row(
-                        children: [
-                          //this row contains a text field and button for user to submit hours
-                          SizedBox(
-                            width: 120,
-                            height: 40,
-                            child: TextField(
-                              controller: myController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Hours Worked',
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                update(myController
-                                    .text); //calls update database to store new values in firestore
-                              },
-                              child: Text("Input New Hours"))
-                        ],
-                      )
-                    ],
-                  ));
+          _displayTextInputDialog(context);
         },
       ),
     ]);
