@@ -107,10 +107,9 @@ class _UserHomeState extends State<UserHomePage> {
   void getHours() {
     if (FirebaseAuth.instance.currentUser != null) {
       print(FirebaseAuth.instance.currentUser?.uid); // this is the user id
-      final current_user = FirebaseAuth.instance.currentUser?.email!
-          .split("@")[0]; // this is the displayname aka first part of email
+      final current_user = FirebaseAuth.instance.currentUser?.uid;
       print(current_user);
-
+      // this reference asks the database for the collection in the ""
       final docRef = database.collection("users").doc(
           current_user); //the users collection needs to have ids that are usernames
       docRef.get().then(
