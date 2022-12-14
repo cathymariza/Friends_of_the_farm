@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "222926682196",
+    "project_id": "friend-of-the-farm",
+    "storage_bucket": "friend-of-the-farm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222926682196:android:c4eb15d7896755922515c1",
+        "android_client_info": {
+          "package_name": "com.example.friends_of_the_farm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222926682196-c98no76gtr3vrdcs95hq87sm2isvq5kb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqgkfvBe3NOWCjM9afIHJoFb9wq3Df_FM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222926682196-c98no76gtr3vrdcs95hq87sm2isvq5kb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "222926682196-9tb442svnvttrscalq0ohmlp3nvmoevj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.friendsOfTheFarm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

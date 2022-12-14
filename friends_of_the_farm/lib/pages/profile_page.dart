@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:friends_of_the_farm/user_home.dart';
+import 'package:friends_of_the_farm/main.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -16,21 +18,7 @@ class ProfilePage extends StatelessWidget {
         ),
         const Text('Your Task Groups'),
         Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              ListTile(
-                leading: Icon(Icons.apple),
-                title: Text('Community Garden'),
-              ),
-              ListTile(
-                leading: Icon(Icons.catching_pokemon),
-                title: Text('Chickens'),
-              ),
-            ],
-          ),
-        ),
+            padding: const EdgeInsets.only(left: 8.0), child: UserHomePage()),
       ],
     );
   }
